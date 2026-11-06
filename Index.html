@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ca"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulador de compra de roba en línia · Curs de consum</title>
+<style>
+:root{--bg:#fff;--card:#fff;--tx:#222;--mut:#767676;--ac:#fa6338;--lk:#222;--rd:#e64545;--ok:#198754;--hs:#e63946;--ln:#e5e5e5;--soft:#f6f6f6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--card:#1d1d1d;--tx:#eee;--mut:#a5a5a5;--lk:#eee;--ln:#383838;--soft:#262626}}
+:root[data-theme="dark"]{--bg:#121212;--card:#1d1d1d;--tx:#eee;--mut:#a5a5a5;--lk:#eee;--ln:#383838;--soft:#262626}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 Arial,Helvetica,system-ui,sans-serif}
+.promo{background:#000;color:#fff;text-align:center;padding:7px 12px;font-size:12px}
+header{background:var(--card);border-bottom:1px solid var(--ln);padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.logo{font-weight:900;font-size:26px;letter-spacing:2px}
+.nav{display:flex;gap:16px;font-size:13px;font-weight:700;overflow-x:auto;white-space:nowrap;flex:1}
+.nav .sale{color:var(--rd)}
+.ic{font-size:13px;color:var(--mut)}
+.flash{background:linear-gradient(90deg,#ff5a36,#e64545);color:#fff;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700}
+.tools{background:var(--soft);border-bottom:1px solid var(--ln);padding:8px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px}
+.tools button{font:inherit;border:1px solid var(--ln);background:var(--card);color:var(--tx);padding:5px 10px;border-radius:14px;cursor:pointer}
+.prog{margin-left:auto;color:var(--mut)}
+.bc{max-width:1100px;margin:10px auto 0;padding:0 16px;font-size:12px;color:var(--mut)}
+main{max-width:1100px;margin:10px auto;padding:0 16px;display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:820px){main{grid-template-columns:1fr 1fr}}
+.gal{display:flex;gap:10px}.th{display:flex;flex-direction:column;gap:6px}
+.th i{display:block;width:48px;height:60px;background:var(--soft);border:1px solid var(--ln)}.th i.on{border-color:var(--tx)}
+.th i:before{content:"";display:block;width:100%;height:100%;background:#9aa0a6;clip-path:polygon(32% 8%,40% 14%,60% 14%,68% 8%,92% 26%,82% 40%,74% 35%,74% 92%,26% 92%,26% 35%,18% 40%,8% 26%)}
+.main-img{flex:1;position:relative;background:var(--soft);min-height:420px;display:flex;align-items:center;justify-content:center}
+.tee{width:78%;max-width:300px;aspect-ratio:1/1.1;background:linear-gradient(160deg,#aab0b7,#868d95);clip-path:polygon(32% 0,40% 6%,60% 6%,68% 0,100% 18%,88% 36%,76% 30%,76% 100%,24% 100%,24% 30%,12% 36%,0 18%)}
+.ov{position:absolute;display:flex;gap:5px;align-items:center;font-size:11px;background:rgba(255,255,255,.92);color:#222;padding:3px 6px;border-radius:3px}
+.ov.a{top:8px;left:8px}.ov.b{bottom:8px;left:8px}.ov.c{bottom:8px;right:8px}.ov.d{top:8px;right:8px}
+h1{font-size:16px;font-weight:700;margin:0 0 4px;line-height:1.35}
+.sku{font-size:12px;color:var(--mut)}
+.stars{color:#f5a623}
+.row{margin:10px 0;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.price{font-size:30px;font-weight:800;color:var(--ac)}.old{color:var(--mut);text-decoration:line-through}
+.badge{display:inline-block;background:var(--rd);color:#fff;font-size:12px;font-weight:700;padding:2px 6px}
+.bd2{background:#fff3ef;color:var(--ac);border:1px solid #ffd2c4}
+.cup{background:#fff3ef;color:var(--ac);border:1px dashed var(--ac);padding:8px 10px;font-size:13px}
+.sw{width:34px;height:34px;border:1px solid var(--ln);display:inline-block}.sw.on{outline:2px solid var(--tx);outline-offset:1px}
+.sz{border:1px solid var(--ln);padding:6px 14px;font-size:13px;display:inline-block}.sz.on{border-color:var(--tx);outline:1px solid var(--tx)}
+.fit{height:6px;background:linear-gradient(90deg,#ddd 40%,#222 40% 60%,#ddd 60%);width:200px;border-radius:3px}
+.btn{border:0;background:#000;color:#fff;font:700 15px Arial;padding:13px;flex:1;text-align:center;min-width:180px}
+.hrt{border:1px solid var(--ln);width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.box{border:1px solid var(--ln);padding:10px 12px;margin:10px 0;font-size:13px}
+label{display:flex;gap:8px;font-size:13px;margin:6px 0;align-items:flex-start}
+.gr{background:#e5e5e5;color:#999;font-size:11px;padding:3px 6px;display:inline-block}
+.link{text-decoration:underline;color:var(--lk)}.ok{color:var(--ok)}.red{color:var(--rd)}
+.rv{grid-column:1/-1;border-top:1px solid var(--ln);padding-top:16px}
+.rev{border-top:1px solid var(--ln);padding:10px 0;font-size:14px}
+.hs{width:22px;height:22px;border-radius:50%;border:0;background:var(--hs);color:#fff;font-weight:800;font-size:13px;cursor:pointer;flex:none;animation:p 1.6s infinite;padding:0}
+.hs.done{background:var(--ok);animation:none}
+body.nohs .hs{display:none}
+@keyframes p{0%{box-shadow:0 0 0 0 rgba(230,57,70,.6)}70%{box-shadow:0 0 0 9px rgba(230,57,70,0)}100%{box-shadow:0 0 0 0 rgba(230,57,70,0)}}
+.wheel{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:#fff;color:#222;border:2px solid var(--ac);border-radius:30px;padding:6px 12px 6px 8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:20}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--card);z-index:21;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));overflow-y:auto;transform:translateX(100%);transition:.25s;box-shadow:-4px 0 20px rgba(0,0,0,.3)}
+body.open #dr{transform:none}body.open #ov{display:block}
+#dr h2{margin:0 0 10px;font-size:19px;padding-top:env(safe-area-inset-top,0px)}
+.sec{border-radius:8px;padding:10px 12px;margin:10px 0;font-size:14px}
+.s1{background:rgba(0,113,133,.12)}.s2{background:rgba(6,125,98,.14)}.s3{background:rgba(255,153,0,.16)}
+.sec b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;color:var(--mut)}
+.tag{display:inline-block;font-size:11px;background:var(--hs);color:#fff;border-radius:10px;padding:1px 8px;margin-bottom:6px}
+.x{float:right;border:0;background:none;font-size:26px;color:var(--tx);cursor:pointer;line-height:1}
+details{font-size:13px;color:var(--mut);margin-top:10px}summary{cursor:pointer}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:16px 16px 70px}
+</style></head><body>
+<div class="promo">🚚 Enviament gratuït a partir de 49 € · Devolucions gratuïtes <button class="hs" data-k="enviament">?</button></div>
+<header><div class="logo">MODAFLASH</div><div class="nav"><span>NOVETATS</span><span class="sale">OFERTES</span><span>DONA</span><span>CURVY</span><span>HOME</span><span>NENS</span><span>BELLESA</span></div><span class="ic">🔍 · ♡ · 👤 · 🛍 Cistella</span></header>
+<div class="flash">⚡ VENDA FLAIX · Acaba en 00:09:47 <button class="hs" data-k="rellotge">?</button></div>
+<div class="tools"><b>Mode classe:</b>
+<button onclick="document.body.classList.toggle('nohs')">Mostra / amaga pistes</button>
+<button onclick="reset()">Reinicia</button>
+<button onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">☾ / ☀</button>
+<span class="prog" id="prog"></span></div>
+<div class="bc">Inici › Dona › Samarretes › Samarretes bàsiques</div>
+
+<main>
+<section class="gal">
+ <div class="th"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+ <div class="main-img"><div class="tee"></div>
+  <div class="ov a">Patrocinat <button class="hs" data-k="patro">?</button></div>
+  <div class="ov" style="top:45%;left:8px">Foto de la model <button class="hs" data-k="foto">?</button></div>
+  <div class="ov d">Tendència <button class="hs" data-k="venut">?</button></div>
+  <div class="ov b">📸 Com la porta @laura.style <button class="hs" data-k="influ">?</button></div>
+  <div class="ov c">🌿 Col·lecció conscient <button class="hs" data-k="eco">?</button></div>
+ </div>
+</section>
+
+<section>
+ <h1>MODAFLASH EZwear Samarreta bàsica gris coll rodó màniga curta casual dona estiu</h1>
+ <div class="sku">SKU: mf2406178391</div>
+ <div class="row"><span class="stars">★★★★★</span><b>4,9</b><span class="link">(8.742 valoracions)</span><button class="hs" data-k="resenyes">?</button><span class="ic">· +10.000 venudes</span></div>
+ <div class="row"><span class="price">5,99 €</span><span class="badge">−70 %</span><button class="hs" data-k="preu">?</button></div>
+ <div class="old">Preu recomanat: 19,99 €</div>
+ <div class="cup">🎟 Cupó −15 % a partir de 25 € · Només per a nous membres <button class="hs" data-k="shaming" style="vertical-align:middle">?</button><br><span class="gr">No, prefereixo pagar més</span></div>
+ <div class="row red"><b>Només en queden 3 a la teva talla</b><button class="hs" data-k="escassetat">?</button></div>
+ <div class="row" style="font-size:13px">🛒 52 persones ho tenen a la cistella<button class="hs" data-k="social">?</button> <span class="badge bd2" style="margin-left:6px">Recomanat per a tu</span><button class="hs" data-k="recom">?</button></div>
+ <div class="row">Color: <b>Gris</b> <i class="sw on" style="background:#9aa0a6"></i><i class="sw" style="background:#111"></i><i class="sw" style="background:#fff"></i></div>
+ <div class="row">Talla: <span class="sz">XS</span><span class="sz">S</span><span class="sz on">M</span><span class="sz">L</span><span class="sz">XL</span><button class="hs" data-k="talla">?</button></div>
+ <div class="row" style="font-size:12px;color:var(--mut)">Ajust: <span class="fit"></span> Petita · Ajustada · Gran</div>
+ <label><input type="checkbox" checked> Protecció d’enviament (+1,99 €)</label><div style="margin-top:-4px"><button class="hs" data-k="extres">?</button></div>
+ <div class="row"><div class="btn">AFEGEIX A LA CISTELLA</div><div class="hrt">♡</div></div>
+ <div class="box">⭐ <b>Club VIP</b>: prova 7 dies i estalvia un 10 % (després 29,99 € cada trimestre) <label><input type="checkbox" checked> Uneix-me al Club</label><button class="hs" data-k="subscripcio">?</button>
+ <div style="margin-top:6px">Cancel·lar subscripció: <span class="gr">Cancel·la</span> <button class="hs" data-k="cancel">?</button></div></div>
+ <div class="box">
+  <div class="row" style="margin:0 0 6px"><span class="badge" style="background:#1a73e8">Gestionat directament per la plataforma</span><button class="hs" data-k="gestionat">?</button></div>
+  <div class="row" style="margin:0 0 6px">Venut per <span class="link">UrbanTrend Official</span> (extern, de fora de la UE)<button class="hs" data-k="venedor">?</button></div>
+  <div class="row" style="margin:0 0 6px"><span class="ok"><b>Devolucions gratuïtes</b> fins a 30 dies</span><button class="hs" data-k="retorn">?</button><span class="ic">· Pagament segur · Devolucions</span><button class="hs" data-k="desist">?</button></div>
+  <div class="row" style="margin:0 0 6px">💳 Paga en 3 terminis de 2,00 €<button class="hs" data-k="terminis">?</button></div>
+  <div class="row" style="margin:0">Garantia: 30 dies del venedor<button class="hs" data-k="garantia">?</button></div>
+ </div>
+ <div class="box"><b>Descripció</b><br>Teixit 100 % cotó*, ajust regular, rentat a màquina a 30 °C.<br><span style="font-size:11px;color:var(--mut)">*Veure lletra petita i etiquetatge</span> <button class="hs" data-k="lletra">?</button></div>
+</section>
+
+<section class="rv">
+ <b>Opinions (8.742)</b> <button class="hs" data-k="obscurs" title="Resum">?</button>
+ <div class="rev"><span class="stars">★★★★★</span> <b>M’encanta!</b><br><small>Ressenya rebuda a canvi d’un punt de descompte</small></div>
+ <div class="rev"><span class="stars">★★★★★</span> <b>La millor samarreta</b> <span class="badge" style="background:#198754">Compra verificada</span><button class="hs" data-k="verificada" style="margin-left:6px">?</button><br>Ha arribat ràpid i queda genial. <small>(Publicada el mateix dia que altres 60 ressenyes iguals)</small></div>
+ <div class="rev"><span class="stars">★☆☆☆☆</span> <b>La M és una S i no me l’accepten</b><br>Diuen que ja l’he rentat…</div>
+ <div class="row"><button class="hs" data-k="reclamar">?</button><span>Alguna cosa ha anat malament amb la teva compra?</span></div>
+ <div class="row"><button class="hs" data-k="galetes">?</button><span>Aquesta web fa servir galetes</span></div>
+</section>
+</main>
+<div class="wheel">🎡 Gira la ruleta i guanya fins a −90 % <button class="hs" data-k="ruleta">?</button></div>
+<footer>Simulació educativa amb una botiga fictícia · Curs de consum per a adolescents</footer>
+
+<div id="ov" onclick="closeD()"></div>
+<div id="dr" role="dialog" aria-modal="true"><button class="x" onclick="closeD()" aria-label="Tanca">×</button><div id="c"></div></div>
+
+<script>
+// ✏️ CONTINGUT EDITABLE: t=títol, g=categoria, a=què observem, b=què has de saber, c=pregunta per a l’aula
+var H={
+patro:{t:"Publicitat: «Patrocinat»",g:"Publicitat",a:"Aquest article surt dalt perquè algú ha pagat, no perquè sigui el millor.",b:"La publicitat s’ha de poder identificar clarament com a tal. Els resultats «patrocinats» o «anunci» són publicitat encara que semblin resultats normals.",c:"T’havies fixat mai en aquesta etiqueta? Compararies amb altres resultats?"},
+foto:{t:"La foto de la model no és la peça real",g:"Publicitat",a:"Il·luminació, retocs i pinces a l’esquena fan que la peça quedi perfecta.",b:"La publicitat no pot enganyar sobre les característiques del producte. Allò que s’anuncia forma part del contracte. Busca fotos reals de clients i mira mides i teixit.",c:"Què et diu una foto de client que no et diu la de la model?"},
+influ:{t:"Influencers i publicitat encoberta",g:"Publicitat",a:"«Com la porta @laura.style»: sembla una recomanació espontània.",b:"Si un influencer cobra o rep productes, ha d’indicar-ho clarament (#publi, #anunci, «col·laboració»). Amagar que és publicitat és publicitat encoberta i està prohibit. Els adolescents són un públic especialment vulnerable.",c:"Has comprat mai una cosa perquè la duia algú que segueixes? Com saps si li paguen?"},
+eco:{t:"«Col·lecció conscient»: greenwashing",g:"Publicitat",a:"Una etiqueta verda i unes fulles que suggereixen que és sostenible.",b:"Les afirmacions ambientals han de ser veritables i demostrables. «Eco», «conscient» o «verd» sense dades, certificats ni explicacions pot ser greenwashing (rentat verd) i és publicitat enganyosa. Una samarreta de 5,99 € produïda en massa difícilment és sostenible.",c:"Quines proves demanaries perquè et creguessis que una peça és sostenible?"},
+recom:{t:"«Recomanat per a tu»",g:"Publicitat",a:"El web et mostra roba segons el que has mirat i les teves dades.",b:"Les recomanacions personalitzades es basen en el teu perfil i poden ser publicitat encoberta. Tens dret a saber-ho i, sovint, a desactivar-les a la configuració.",c:"Per què et recomana això i no una altra cosa?"},
+resenyes:{t:"Valoracions i ressenyes",g:"Ressenyes",a:"4,9 estrelles amb milers de valoracions: quantes seran reals?",b:"Hi ha ressenyes falses o pagades (a canvi de punts, descomptes o productes). La normativa europea exigeix informar de si es comprova que les opinions són reals. Llegeix les d’1 a 3 estrelles i busca patrons repetits.",c:"Et refiaries d’una ressenya publicada el mateix dia que altres 60 d’idèntiques?"},
+verificada:{t:"«Compra verificada»: i si no ho és?",g:"Ressenyes",a:"Una etiqueta verda que dona confiança.",b:"«Verificada» només vol dir que l’opinió ve d’algú que ha comprat, no que sigui sincera. Cal que el comerç expliqui com verifica les opinions; si no ho fa, desconfia. Fixa’t en dates, text repetit i perfils nous.",c:"Quines pistes et farien sospitar d’una ressenya falsa?"},
+venut:{t:"«+10.000 venuts» i «Tendència»",g:"Ofertes",a:"Una xifra i una etiqueta que generen pressió social.",b:"Les afirmacions han de ser verificables. Que sigui tendència no vol dir que sigui de qualitat ni que et vagi bé. És l’«efecte ramat» i la moda ràpida (fast fashion) viu d’això.",c:"Has comprat mai roba que després no t’has posat?"},
+social:{t:"«52 persones ho tenen a la cistella»",g:"Patrons obscurs",a:"Un missatge d’activitat que pressiona perquè decideixis ràpid.",b:"És un patró obscur d’urgència i prova social: les xifres poden ser inventades o aleatòries. Si és fals, és una pràctica enganyosa. Decideix amb calma i compara.",c:"Com podries saber si aquesta xifra és real?"},
+preu:{t:"Descompte i preu de referència",g:"Ofertes",a:"Tatxat 19,99 € → 5,99 €. Ha costat mai 19,99 €?",b:"Quan s’anuncia una rebaixa, el comerç ha d’indicar el preu més baix aplicat els 30 dies anteriors (normativa europea «Òmnibus»). Un «preu recomanat» inflat fa que l’oferta sembli millor del que és. Compara amb altres botigues.",c:"Un 70 % de descompte: és sospitós? Com comprovaries el preu real?"},
+rellotge:{t:"Urgència artificial: la venda flaix",g:"Patrons obscurs",a:"Un rellotge que pressiona per decidir de pressa.",b:"És una pràctica comercial agressiva si el comptador és fals (es reinicia). Truc: refresca la pàgina; si el rellotge torna a començar, era un parany.",c:"Què faries per no deixar-te pressionar? Esperar 24 h?"},
+escassetat:{t:"Escassetat: «només en queden 3»",g:"Patrons obscurs",a:"Missatge de manca d’estoc per accelerar la compra.",b:"Si la dada és falsa, és una pràctica enganyosa i es pot denunciar. Pregunta’t: ho necessito o només tinc por de perdre-ho? (És el «FOMO»: por de perdre’s alguna cosa.)",c:"Com se sent la pressa quan compres? Millora les teves decisions?"},
+talla:{t:"Talles que no són el que semblen",g:"Condicions",a:"Una M d’una botiga pot ser una S d’una altra, sobretot en marques de fora d’Europa.",b:"No hi ha una talla única. Mira la taula de mides en centímetres i les ressenyes sobre com cau. És una de les causes de més devolucions: pot suposar despeses de devolució i de temps.",c:"Com triaries la talla sense provar-te la peça?"},
+enviament:{t:"«Enviament gratuït a partir de 49 €»",g:"Preu",a:"Fa que acabis comprant més del que volies per no pagar l’enviament.",b:"Tens dret a conèixer el preu total, amb impostos i despeses, abans de pagar. Aquestes tàctiques t’empenyen a gastar més. Comprovar el total de la cistella evita sorpreses (preu a comptagotes).",c:"Compraries 35 € més per estalviar 5,99 €? Qui hi guanya?"},
+gestionat:{t:"«Gestionat directament per la plataforma»",g:"Venedor",a:"Una insígnia que sembla garantir que la plataforma s’ocupa de tot.",b:"Pot significar només que la plataforma fa la logística, no que sigui la venedora ni que es responsabilitzi de tot. El contracte el fas amb el venedor. Mira sempre «venut per» i «enviat per», i com es tramiten les devolucions.",c:"Qui és el responsable si la peça arriba defectuosa? On ho comprovaries?"},
+venedor:{t:"Qui et ven realment?",g:"Venedor",a:"No és la plataforma sinó un venedor extern de fora de la UE.",b:"Ha d’identificar-se (nom, adreça, contacte). Amb venedors de fora de la UE reclamar és més difícil i poden aparèixer aranzels, falsificacions o productes que no compleixen la normativa europea (etiquetatge, seguretat, substàncies químiques).",c:"On miraries les dades del venedor? Què comprovaries abans de comprar?"},
+terminis:{t:"«Paga en 3 terminis»",g:"Ofertes",a:"Dividir el preu fa que sembli més barat i s’oblida que és un crèdit.",b:"Pagar a terminis pot ser un crèdit al consum: cal informació clara sobre el cost total, interessos i comissions, i tens dret de desistiment. Si no pagues un termini, hi pot haver recàrrecs. Pagar després no vol dir que sigui gratis.",c:"Què passa si compres molt a terminis i després no pots pagar?"},
+lletra:{t:"Lletra petita i etiquetatge",g:"Condicions",a:"«100 % cotó*»: l’asterisc ho pot canviar tot.",b:"La roba ha d’indicar la composició del teixit i les instruccions de cura en l’etiqueta, en les llengües oficials del lloc de venda. Les condicions importants han de ser clares. Les clàusules abusives són nul·les.",c:"On buscaries la composició real i què faries si no coincideix?"},
+garantia:{t:"Garantia legal",g:"Drets",a:"El venedor diu «30 dies de garantia».",b:"A Espanya els productes nous tenen 3 anys de garantia legal per defecte de conformitat (amb certs requisits). El venedor no la pot reduir. Pots demanar reparació, substitució, rebaixa del preu o resolució del contracte. El desgast normal no és un defecte.",c:"La costura es desfà al segon mes. Quins drets tens?"},
+retorn:{t:"«Devolucions gratuïtes»: desistiment o política de la botiga?",g:"Drets",a:"Una promesa comercial que no és exactament el mateix que un dret legal.",b:"El desistiment és un dret legal (14 dies) sense motiu. Si el producte és defectuós o no és el que s’anunciava, també tens garantia. Les «devolucions gratuïtes» són un extra: mira estat de la peça (etiquetes), termini i qui paga el transport.",c:"Si no et cau bé la peça, qui paga el transport? On ho has de buscar?"},
+extres:{t:"Caselles premarcades i extres",g:"Patrons obscurs",a:"La «protecció d’enviament» ve marcada per defecte i suma 1,99 €.",b:"Està prohibit cobrar extres amb caselles premarcades: s’han d’acceptar de manera expressa. Si te’ls cobren sense consentiment, tens dret que te’ls tornin. Revisa cada pas abans de pagar.",c:"Quants extres pots arribar a pagar sense adonar-te’n?"},
+subscripcio:{t:"Prova gratuïta que es converteix en pagament",g:"Patrons obscurs",a:"«7 dies de prova» i després es renova cada trimestre.",b:"Cal informar clarament del preu i de com cancel·lar. Posa una alarma abans que acabi la prova. Moltes subscripcions s’«obliden» i es cobren una vegada i una altra.",c:"Has pagat mai alguna cosa que no recordaves haver contractat?"},
+shaming:{t:"Confirmshaming",g:"Patrons obscurs",a:"«No, prefereixo pagar més»: el botó per rebutjar és petit, gris i et fa sentir ximple.",b:"Usar la culpa o l’emoció per empènyer a acceptar és un patró obscur. El cupó et demana dades personals a canvi d’un descompte: pensa què cedeixes. Rebutjar ha de ser tan fàcil com acceptar.",c:"Quin botó destaca més? Quin és el més fàcil de trobar i per què?"},
+ruleta:{t:"Gamificació: la ruleta de premis",g:"Patrons obscurs",a:"Un joc d’atzar que et fa sentir que has guanyat i et fa comprar.",b:"La ruleta sempre «et toca» un descompte i et demana el correu, i et fa sentir que has de gastar-lo ja. Usa mecanismes de joc i recompensa que influeixen en les emocions, sobretot en adolescents. El «premi» mai és realment gratuït.",c:"Per què creus que sempre guanyes? Què en treu la botiga?"},
+cancel:{t:"Fàcil de contractar, difícil de cancel·lar",g:"Patrons obscurs",a:"Subscriure’s va ser un clic; cancel·lar és un botó gris petit.",b:"Si has contractat en línia, també has de poder donar-te de baixa amb facilitat. Dificultar-ho és un patró obscur. Guarda captures i demana la baixa per escrit.",c:"On buscaries l’opció de baixa? Quantes pantalles caldria travessar?"},
+desist:{t:"Dret de desistiment",g:"Drets",a:"«Devolucions»: quan i com s’exerceix de debò?",b:"En compres en línia tens 14 dies naturals des de la recepció per tornar el producte sense donar explicacions. Si no t’informen d’aquest dret, el termini s’amplia fins a 12 mesos. Les despeses de devolució les paga el comprador només si se l’ha informat prèviament. Pots provar la roba, però no fer-ne ús.",c:"Has provat la samarreta i no t’agrada: la pots retornar? En quin termini?"},
+galetes:{t:"Galetes i les teves dades",g:"Dades",a:"El web vol rastrejar què mires per mostrar-te anuncis personalitzats.",b:"Has de poder rebutjar les galetes no necessàries tan fàcilment com acceptar-les. Les teves dades estan protegides per llei, i si ets menor de 14 anys cal el consentiment dels teus pares.",c:"Acceptes o rebutges? Quin botó és el més fàcil de prémer i per què?"},
+obscurs:{t:"Resum: patrons obscurs",g:"Patrons obscurs",a:"En aquesta pàgina n’has de poder trobar uns quants.",b:"Dissenys que et fan fer coses que no faries: urgència, escassetat, activitat social, caselles premarcades, confirmshaming, ruleta, cancel·lació difícil i preu a comptagotes. Es poden denunciar si són enganyosos o agressius.",c:"Compta’n quants n’has trobat. Quin és el més difícil de detectar?"},
+reclamar:{t:"Si alguna cosa va malament: reclamar",g:"Drets",a:"Ressenya d’algú a qui han denegat la devolució.",b:"Primer reclama per escrit al venedor i guarda proves (captures, correus, factura). Si no respon, pots anar a l’Oficina de Consum del teu municipi, a l’Agència Catalana del Consum o a la plataforma europea de resolució de litigis en línia. Les reclamacions són gratuïtes.",c:"Redacta una reclamació en 5 línies: quines dades hi inclouries?"}
+};
+var seen={},N=Object.keys(H).length;
+function upd(){document.getElementById('prog').textContent='Descoberts: '+Object.keys(seen).length+' / '+N}
+function openD(k){var d=H[k];seen[k]=1;
+document.querySelectorAll('.hs[data-k="'+k+'"]').forEach(function(b){b.classList.add('done')});
+document.getElementById('c').innerHTML='<span class="tag">'+d.g+'</span><h2>'+d.t+'</h2><div class="sec s1"><b>👀 Què observem</b>'+d.a+'</div><div class="sec s2"><b>⚖️ Què has de saber</b>'+d.b+'</div><div class="sec s3"><b>💬 Pregunta per a l’aula</b>'+d.c+'</div><details><summary>Nota per al professorat</summary>Contingut orientatiu: contrasta sempre dades i terminis amb la normativa vigent i amb Consumcat / Agència Catalana del Consum.</details>';
+document.body.classList.add('open');upd()}
+function closeD(){document.body.classList.remove('open')}
+function reset(){seen={};document.querySelectorAll('.hs').forEach(function(b){b.classList.remove('done')});closeD();upd()}
+document.querySelectorAll('.hs').forEach(function(b){b.onclick=function(){openD(b.dataset.k)}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeD()});
+upd();
+</script></body></html>
